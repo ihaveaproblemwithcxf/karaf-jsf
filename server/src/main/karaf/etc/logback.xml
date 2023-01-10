@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="osgi" class="org.ops4j.pax.logging.logback.internal.bridges.PaxAppenderDelegate">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+	</appender>
+
+	<appender name="allFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${karaf.log}/all.log</File>
+		<Append>true</Append>
+		<encoder>
+			<pattern>%d{ISO8601} | %-5.5p | %-16.16t | %-32.32c{1} | %-32.-32(%X{bundle.id} - %X{bundle.name}) | %9.-9X{bundle.version} |%replace( %X{processname}\(%X{processid}\) - ){' \(\) - ', ''} %m%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${karaf.log}/all.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+			<maxHistory>90</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="osgi"/>
+		<appender-ref ref="allFileAppender"/>
+	</root>
+
+</configuration>

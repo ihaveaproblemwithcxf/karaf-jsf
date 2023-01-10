@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>experimental</groupId>
+	<artifactId>karaf-jsf</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+
+	<name>Karaf JSF Demo</name>
+
+	<properties>
+		<project.reporting.sourceEncoding>UTF-8</project.reporting.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<slf4j.version>1.7.30</slf4j.version>
+		<karaf.version>4.4.2</karaf.version>
+		<logback.version>1.2.11</logback.version>
+		<osgi.version>7.0.0</osgi.version>
+		<jsf-myfaces.version>2.3.10</jsf-myfaces.version>
+		<jsf-primefaces.version>10.0.0</jsf-primefaces.version>
+		<cxf.version>3.5.5</cxf.version>
+	</properties>
+
+	<modules>
+		<module>demo-application</module>
+		<module>feature</module>
+		<module>server</module>
+	</modules>
+</project>

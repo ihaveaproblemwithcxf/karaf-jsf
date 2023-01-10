@@ -1,0 +1,225 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>server</artifactId>
+
+	<packaging>karaf-assembly</packaging>
+
+	<parent>
+		<groupId>experimental</groupId>
+		<artifactId>karaf-jsf</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<name>Server Demo</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.karaf.features</groupId>
+			<artifactId>framework</artifactId>
+			<version>${karaf.version}</version>
+			<type>kar</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.karaf.features</groupId>
+			<artifactId>standard</artifactId>
+			<version>${karaf.version}</version>
+			<classifier>features</classifier>
+			<type>xml</type>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.karaf.features</groupId>
+			<artifactId>enterprise</artifactId>
+			<version>${karaf.version}</version>
+			<classifier>features</classifier>
+			<type>xml</type>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.karaf.features</groupId>
+			<artifactId>specs</artifactId>
+			<version>${karaf.version}</version>
+			<classifier>features</classifier>
+			<type>xml</type>
+			<scope>runtime</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>experimental</groupId>
+			<artifactId>demo-feature</artifactId>
+			<version>${project.version}</version>
+			<classifier>features</classifier>
+			<type>xml</type>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf.karaf</groupId>
+			<artifactId>apache-cxf</artifactId>
+			<version>${cxf.version}</version>
+			<classifier>features</classifier>
+			<type>xml</type>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>with-cxf</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-etc</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${project.build.directory}/assembly/etc</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/karaf/etc</directory>
+											<filtering>false</filtering>
+											<includes>
+												<include>**/*</include>
+											</includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.karaf.tooling</groupId>
+						<artifactId>karaf-maven-plugin</artifactId>
+						<extensions>true</extensions>
+						<configuration>
+							<framework>framework-logback</framework>
+							<karafVersion>v4x</karafVersion>
+							<ignoreDependencyFlag>false</ignoreDependencyFlag>
+							<archiveTarGz>true</archiveTarGz>
+							<archiveZip>false</archiveZip>
+
+							<startupFeatures></startupFeatures>
+
+							<installedFeatures></installedFeatures>
+
+							<bootFeatures>
+								<feature>scr</feature>
+								<feature>standard</feature>
+								<feature>demo-feature</feature>
+								<feature>pax-web-karaf</feature>
+								<feature>pax-web-jetty-http2</feature>
+								<feature>pax-web-jetty-http2-jdk9</feature>
+								<feature>pax-web-whiteboard</feature>
+								<feature>pax-web-http-jetty</feature>
+								<feature>pax-web-jetty-websockets</feature>
+								<feature>jndi</feature>
+								<feature>jdbc</feature>
+								<feature>pax-jdbc-h2</feature>
+								<feature>pax-jdbc-jtds</feature>
+								<feature>pax-jdbc-mariadb</feature>
+								<feature>pax-jdbc-pool-c3p0</feature>
+								<feature>cxf-jaxrs</feature>
+								<feature>cxf-jaxws</feature>
+								<feature>cxf-commands</feature>
+								<feature>cxf-rs-description-openapi-v3</feature>
+								<feature>jpa</feature>
+								<feature>hibernate</feature>
+								<feature>war</feature>
+								<feature>spifly</feature>
+							</bootFeatures>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>without-cxf</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-etc</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<outputDirectory>${project.build.directory}/assembly/etc</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/karaf/etc</directory>
+											<filtering>false</filtering>
+											<includes>
+												<include>**/*</include>
+											</includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.karaf.tooling</groupId>
+						<artifactId>karaf-maven-plugin</artifactId>
+						<extensions>true</extensions>
+						<configuration>
+							<framework>framework-logback</framework>
+							<karafVersion>v4x</karafVersion>
+							<ignoreDependencyFlag>false</ignoreDependencyFlag>
+							<archiveTarGz>true</archiveTarGz>
+							<archiveZip>false</archiveZip>
+
+							<startupFeatures></startupFeatures>
+
+							<installedFeatures></installedFeatures>
+
+							<bootFeatures>
+								<feature>scr</feature>
+								<feature>standard</feature>
+								<feature>demo-feature</feature>
+								<feature>pax-web-karaf</feature>
+								<feature>pax-web-jetty-http2</feature>
+								<feature>pax-web-jetty-http2-jdk9</feature>
+								<feature>pax-web-whiteboard</feature>
+								<feature>pax-web-http-jetty</feature>
+								<feature>pax-web-jetty-websockets</feature>
+								<feature>jndi</feature>
+								<feature>jdbc</feature>
+								<feature>pax-jdbc-h2</feature>
+								<feature>pax-jdbc-jtds</feature>
+								<feature>pax-jdbc-mariadb</feature>
+								<feature>pax-jdbc-pool-c3p0</feature>
+								<feature>jpa</feature>
+								<feature>hibernate</feature>
+								<feature>war</feature>
+								<feature>spifly</feature>
+							</bootFeatures>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
